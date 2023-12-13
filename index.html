@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Details</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <label for="year">Year:</label>
+  <select id="year" onchange="updateDropdowns()">
+    <option value="" disabled selected>Select Year</option>
+    <!-- Years will be dynamically added here -->
+  </select>
+
+  <label for="course">Course:</label>
+  <select id="course" onchange="updateSections()" disabled>
+    <option value="" disabled selected>Select Course</option>
+    <!-- Courses will be dynamically added here -->
+  </select>
+
+  <label for="section">Section:</label>
+  <select id="section" onchange="updateTable()" disabled>
+    <option value="" disabled selected>Select Section</option>
+    <!-- Sections will be dynamically added here -->
+  </select>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Credits Completed</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- Student details will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <script>
+    // Fetch JSON data from the file
+    fetch('dummy_data.json')
+      .then(response => response.json())
+      .then(data => {
+        // Store the data globally
+        window.studentData = data;
+
+        // Extract unique years from the data
+        const uniqueYears = [...new Set(data.map(student => student.year))];
+
+        // Enable year dropdown
+        const yearDropdown = document.getElementById('year');
+        yearDropdown.removeAttribute('disabled');
+
+        // Populate year dropdown
+        uniqueYears.forEach(year => {
+          const option = document.createElement('option');
+          option.value = year;
+          option.text = year;
+          yearDropdown.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+
+    // Function to update course dropdown based on selected year
+    function updateDropdowns() {
+      const selectedYear = document.getElementById('year').value;
+      const selectedCourse = document.getElementById('course');
+      const sectionDropdown = document.getElementById('section');
+
+      // Enable course dropdown
+      selectedCourse.removeAttribute('disabled');
+
+      const courseDropdown = document.getElementById('course');
+      const uniqueCourses = [...new Set(window.studentData.filter(student => student.year == selectedYear).map(student => student.course))];
+
+      // Update course dropdown
+      courseDropdown.innerHTML = '<option value="" disabled selected>Select Course</option>';
+      uniqueCourses.forEach(course => {
+        const option = document.createElement('option');
+        option.value = course;
+        option.text = course;
+        courseDropdown.appendChild(option);
+      });
+
+      // Enable section dropdown
+      sectionDropdown.removeAttribute('disabled');
+      
+      // Update sections dropdown
+      updateSections();
+    }
+
+    // Function to update section dropdown based on selected course
+    function updateSections() {
+      const selectedCourse = document.getElementById('course').value;
+      const sectionDropdown = document.getElementById('section');
+
+      // Extract unique sections based on selected year and course
+      const uniqueSections = [...new Set(window.studentData.filter(student => student.course == selectedCourse).map(student => student.section))];
+
+      // Update section dropdown
+      sectionDropdown.innerHTML = '<option value="" disabled selected>Select Section</option>';
+      uniqueSections.forEach(section => {
+        const option = document.createElement('option');
+        option.value = section;
+        option.text = section;
+        sectionDropdown.appendChild(option);
+      });
+
+      // Update the table
+      updateTable();
+    }
+
+    // Function to update the table based on selected year, course, and section
+    function updateTable() {
+      const selectedYear = document.getElementById('year').value;
+      const selectedCourse = document.getElementById('course').value;
+      const selectedSection = document.getElementById('section').value;
+
+      const filteredData = window.studentData
+        .filter(student => student.year == selectedYear && student.course == selectedCourse && student.section == selectedSection);
+
+      // Update the table
+      const tableBody = document.getElementById('tableBody');
+      tableBody.innerHTML = '';
+      filteredData.forEach(student => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${student.id}</td>
+          <td>${student.name}</td>
+          <td>${student.credits_completed}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+  </script>
+
+</body>
+</html>
