@@ -1,0 +1,175 @@
+{
+    "section": "C",
+    "routine": [
+      {
+        "day": "Monday",
+        "time": "14:00 - 16:30"
+      },
+      {
+        "day": "Wednesday",
+        "time": "13:30 - 16:00"
+      }
+    ],
+    "students": [
+      {
+        "Sn": 1,
+        "StudentID": "22-36346-2",
+        "StudentName": "Paul Anderson",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 124,
+        "CreditTaken": 0
+      },
+      {
+        "Sn": 2,
+        "StudentID": "22-36557-1",
+        "StudentName": "Lisa Thomas",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 110,
+        "CreditTaken": 14
+      },
+      {
+        "Sn": 3,
+        "StudentID": "22-36779-3",
+        "StudentName": "George Jackson",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 95,
+        "CreditTaken": 29
+      },
+      {
+        "Sn": 4,
+        "StudentID": "22-37001-1",
+        "StudentName": "Nancy Thompson",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 80,
+        "CreditTaken": 44
+      },
+      {
+        "Sn": 5,
+        "StudentID": "22-37113-1",
+        "StudentName": "Kenneth White",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 115,
+        "CreditTaken": 9
+      },
+      {
+        "Sn": 6,
+        "StudentID": "22-37335-1",
+        "StudentName": "Sandra Harris",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 100,
+        "CreditTaken": 24
+      },
+      {
+        "Sn": 7,
+        "StudentID": "22-37557-2",
+        "StudentName": "Donald Martin",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 85,
+        "CreditTaken": 39
+      },
+      {
+        "Sn": 8,
+        "StudentID": "22-37779-3",
+        "StudentName": "Barbara Young",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 120,
+        "CreditTaken": 4
+      },
+      {
+        "Sn": 9,
+        "StudentID": "22-38001-3",
+        "StudentName": "Richard Hernandez",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 105,
+        "CreditTaken": 19
+      },
+      {
+        "Sn": 10,
+        "StudentID": "22-38113-3",
+        "StudentName": "Betty Green",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 90,
+        "CreditTaken": 34
+      },
+      {
+        "Sn": 11,
+        "StudentID": "22-38335-3",
+        "StudentName": "Michael King",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 75,
+        "CreditTaken": 49
+      },
+      {
+        "Sn": 12,
+        "StudentID": "22-38557-1",
+        "StudentName": "Kimberly Wright",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 110,
+        "CreditTaken": 14
+      },
+      {
+        "Sn": 13,
+        "StudentID": "22-38779-1",
+        "StudentName": "Steven Lopez",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 95,
+        "CreditTaken": 29
+      },
+      {
+        "Sn": 14,
+        "StudentID": "22-39001-3",
+        "StudentName": "Emily Hill",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 80,
+        "CreditTaken": 44
+      },
+      {
+        "Sn": 15,
+        "StudentID": "22-39113-3",
+        "StudentName": "Edward Scott",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 115,
+        "CreditTaken": 9
+      },
+      {
+        "Sn": 16,
+        "StudentID": "22-39335-1",
+        "StudentName": "Amanda Torres",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 100,
+        "CreditTaken": 24
+      },
+      {
+        "Sn": 17,
+        "StudentID": "22-39557-2",
+        "StudentName": "Brian Carter",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 85,
+        "CreditTaken": 39
+      },
+      {
+        "Sn": 18,
+        "StudentID": "22-39779-2",
+        "StudentName": "Sharon Mitchell",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 120,
+        "CreditTaken": 4
+      },
+      {
+        "Sn": 19,
+        "StudentID": "22-40001-2",
+        "StudentName": "Ronald Phillips",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 105,
+        "CreditTaken": 19
+      },
+      {
+        "Sn": 20,
+        "StudentID": "22-40222-2",
+        "StudentName": "Laura Campbell",
+        "Dept": "BSc CSE",
+        "CreditCompleted": 90,
+        "CreditTaken": 34
+      }
+    ]
+}
