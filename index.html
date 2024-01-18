@@ -21,7 +21,7 @@
                                 <td width="100"> Semester </td>
                                 <td>
                                   <select name="drpSemester" id="drpSemester" class="FlatDropDown" onchange="updateOfferedCourses()">
-                                    <option value="0">[Select]</option>
+                                    <option value="0" disabled selected>[Select]</option>
                                     <option value="769">2021-2022, Spring</option>
                                     <option value="770">2021-2022, Summer</option>
                                     <option value="771">2022-2023, Fall</option>
@@ -31,16 +31,16 @@
                               <tr>
                                 <td width="100"> Offered Course </td>
                                 <td>
-                                  <select name="ddlOfferedCourse" id="ddlOfferedCourse" class="FlatDropDown" onchange="updateOfferedSections()">
-                                    <option value="0">[Select]</option>
+                                  <select name="ddlOfferedCourse" id="ddlOfferedCourse" class="FlatDropDown" onchange="updateOfferedSections()" disabled>
+                                    <option value="0" disabled selected>[Select]</option>
                                   </select>
                                 </td>
                               </tr>
                               <tr>
                                 <td> Offered Section </td>
                                 <td>
-                                  <select name="ddlOfferedSection" id="ddlOfferedSection" class="FlatDropDown" onchange="updateClassRoutineAndStudentData()">
-                                    <option value="0">[Select]</option>
+                                  <select name="ddlOfferedSection" id="ddlOfferedSection" class="FlatDropDown" onchange="updateClassRoutineAndStudentData()" disabled>
+                                    <option value="0" disabled selected>[Select]</option>
                                   </select>
                                 </td>
                               </tr>
@@ -172,21 +172,34 @@
       function updateOfferedCourses() {
         var selectedSemester = document.getElementById("drpSemester").value;
         var offeredCoursesDropdown = document.getElementById("ddlOfferedCourse");
-        // Clear previous courses
-        offeredCoursesDropdown.innerHTML = ' < option value = "0" > [Select] < /option>';
-        // Add dynamically fetched courses based on the selected semester
-        if (selectedSemester === "769") {
-          // Add courses for Spring semester
-          addCourseOption("Data Structures and Algorithms");
-          addCourseOption("Computer Networks");
-        } else if (selectedSemester === "770") {
-          // Add courses for Summer semester
-          addCourseOption("Artificial Intelligence");
-          addCourseOption("Database Management Systems");
-          addCourseOption("Software Engineering");
-        } else if (selectedSemester === "771") {
-          // Add courses for Fall semester
-          addCourseOption("Operating Systems");
+        var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
+
+        // Clear previous courses and sections
+        offeredCoursesDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
+        offeredSectionsDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
+
+        // Enable Offered Course dropdown if a Semester is selected
+        if (selectedSemester !== "0") {
+          offeredCoursesDropdown.disabled = false;
+
+          // Add dynamically fetched courses based on the selected semester
+          if (selectedSemester === "769") {
+            // Add courses for Spring semester
+            addCourseOption("Data Structures and Algorithms");
+            addCourseOption("Computer Networks");
+          } else if (selectedSemester === "770") {
+            // Add courses for Summer semester
+            addCourseOption("Artificial Intelligence");
+            addCourseOption("Database Management Systems");
+            addCourseOption("Software Engineering");
+          } else if (selectedSemester === "771") {
+            // Add courses for Fall semester
+            addCourseOption("Operating Systems");
+          }
+        } else {
+          // If no Semester is selected, disable Offered Course and Offered Section dropdowns
+          offeredCoursesDropdown.disabled = true;
+          offeredSectionsDropdown.disabled = true;
         }
       }
 
@@ -201,36 +214,46 @@
       function updateOfferedSections() {
         var selectedCourse = document.getElementById("ddlOfferedCourse").value;
         var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
+
         // Clear previous sections
-        offeredSectionsDropdown.innerHTML = ' < option value = "0" > [Select] < /option>';
-        // Add dynamically fetched sections based on the selected course
-        if (selectedCourse === "Data Structures and Algorithms") {
-          // Add sections for Data Structures and Algorithms
-          addSectionOption("A");
-          addSectionOption("B");
-        } else if (selectedCourse === "Computer Networks") {
-          // Add sections for Computer Networks
-          addSectionOption("A");
-          addSectionOption("B");
-        } else if (selectedCourse === "Artificial Intelligence") {
-          // Add sections for Artificial Intelligence
-          addSectionOption("A");
-          addSectionOption("B");
-          addSectionOption("C");
-        } else if (selectedCourse === "Database Management Systems") {
-          // Add sections for Database Management Systems
-          addSectionOption("A");
-          addSectionOption("B");
-          addSectionOption("C");
-        } else if (selectedCourse === "Software Engineering") {
-          // Add sections for Software Engineering
-          addSectionOption("A");
-          addSectionOption("B");
-          addSectionOption("C");
-        } else if (selectedCourse === "Operating Systems") {
-          // Add sections for Operating Systems
-          addSectionOption("A");
-          addSectionOption("B");
+        offeredSectionsDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
+
+        // Enable Offered Section dropdown if a Course is selected
+        if (selectedCourse !== "0") {
+          offeredSectionsDropdown.disabled = false;
+
+          // Add dynamically fetched sections based on the selected course
+          if (selectedCourse === "Data Structures and Algorithms") {
+            // Add sections for Data Structures and Algorithms
+            addSectionOption("A");
+            addSectionOption("B");
+          } else if (selectedCourse === "Computer Networks") {
+            // Add sections for Computer Networks
+            addSectionOption("A");
+            addSectionOption("B");
+          } else if (selectedCourse === "Artificial Intelligence") {
+            // Add sections for Artificial Intelligence
+            addSectionOption("A");
+            addSectionOption("B");
+            addSectionOption("C");
+          } else if (selectedCourse === "Database Management Systems") {
+            // Add sections for Database Management Systems
+            addSectionOption("A");
+            addSectionOption("B");
+            addSectionOption("C");
+          } else if (selectedCourse === "Software Engineering") {
+            // Add sections for Software Engineering
+            addSectionOption("A");
+            addSectionOption("B");
+            addSectionOption("C");
+          } else if (selectedCourse === "Operating Systems") {
+            // Add sections for Operating Systems
+            addSectionOption("A");
+            addSectionOption("B");
+          }
+        } else {
+          // If no Course is selected, disable Offered Section dropdown
+          offeredSectionsDropdown.disabled = true;
         }
       }
 
