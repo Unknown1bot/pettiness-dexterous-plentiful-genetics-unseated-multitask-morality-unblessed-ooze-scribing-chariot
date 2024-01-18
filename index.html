@@ -65,7 +65,7 @@
               <tr>
                 <td>
                   <table class="DataGrid" cellspacing="0" rules="all" border="1" id="grdStudentList" style="width:700px;border-collapse:collapse;">
-                    <tbody>
+                    <thead>
                       <tr class="DataGridHeader">
                         <td align="center" style="width:20px;">Sn</td>
                         <td align="center" style="width:120px;">StudentID</td>
@@ -74,6 +74,8 @@
                         <td align="center">Credit Completed</td>
                         <td align="center">Credit Taken</td>
                       </tr>
+                    </thead>
+                    <tbody>
                       <!-- Student data will be dynamically populated here -->
                     </tbody>
                   </table>
@@ -172,12 +174,8 @@
       function updateOfferedCourses() {
         var selectedSemester = document.getElementById("drpSemester").value;
         var offeredCoursesDropdown = document.getElementById("ddlOfferedCourse");
-        var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
-
-        // Clear previous courses and sections
+        // Clear previous courses
         offeredCoursesDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
-        offeredSectionsDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
-
         // Enable Offered Course dropdown if a Semester is selected
         if (selectedSemester !== "0") {
           offeredCoursesDropdown.disabled = false;
@@ -199,7 +197,7 @@
         } else {
           // If no Semester is selected, disable Offered Course and Offered Section dropdowns
           offeredCoursesDropdown.disabled = true;
-          offeredSectionsDropdown.disabled = true;
+          document.getElementById("ddlOfferedSection").disabled = true;
         }
       }
 
@@ -214,10 +212,8 @@
       function updateOfferedSections() {
         var selectedCourse = document.getElementById("ddlOfferedCourse").value;
         var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
-
         // Clear previous sections
         offeredSectionsDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
-
         // Enable Offered Section dropdown if a Course is selected
         if (selectedCourse !== "0") {
           offeredSectionsDropdown.disabled = false;
