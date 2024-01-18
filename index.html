@@ -1,152 +1,246 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Details</title>
-  <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-  </style>
-</head>
-<body>
+<html>
+  <head>
+    <title>Print Student List</title>
+  </head>
+  <body>
+    <form name="form1" method="post" action="#" id="form1">
+      <div>
+        <div>
+          <table id="Table1" cellspacing="1" cellpadding="1" width="700" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  <table id="Table3" cellspacing="1" cellpadding="1" width="100%" border="0">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <table id="Table5" cellspacing="1" cellpadding="1" width="100%" border="0">
+                            <tbody>
+                              <tr>
+                                <td width="100"> Semester </td>
+                                <td>
+                                  <select name="drpSemester" id="drpSemester" class="FlatDropDown" onchange="updateOfferedCourses()">
+                                    <option value="0">[Select]</option>
+                                    <option value="769">2021-2022, Spring</option>
+                                    <option value="770">2021-2022, Summer</option>
+                                    <option value="771">2022-2023, Fall</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="100"> Offered Course </td>
+                                <td>
+                                  <select name="ddlOfferedCourse" id="ddlOfferedCourse" class="FlatDropDown" onchange="updateOfferedSections()">
+                                    <option value="0">[Select]</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td> Offered Section </td>
+                                <td>
+                                  <select name="ddlOfferedSection" id="ddlOfferedSection" class="FlatDropDown" onchange="updateClassRoutineAndStudentData()">
+                                    <option value="0">[Select]</option>
+                                  </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td align="right">
+                          <strong>Class Routine</strong>
+                          <br>
+                          <table class="DataGrid" cellspacing="0" rules="all" border="1" id="grdRoutine" style="border-collapse:collapse;">
+                            <tbody>
+                              <!-- Class routine will be dynamically updated here -->
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr></tr>
+              <tr>
+                <td>
+                  <table class="DataGrid" cellspacing="0" rules="all" border="1" id="grdStudentList" style="width:700px;border-collapse:collapse;">
+                    <tbody>
+                      <tr class="DataGridHeader">
+                        <td align="center" style="width:20px;">Sn</td>
+                        <td align="center" style="width:120px;">StudentID</td>
+                        <td align="center">Student Name</td>
+                        <td align="center" style="width:100px;">Department</td>
+                        <td align="center">Credit Completed</td>
+                        <td align="center">Credit Taken</td>
+                      </tr>
+                      <!-- Student data will be dynamically populated here -->
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </form>
+    <script>
+      function updateClassRoutineAndStudentData() {
+        var selectedSection = document.getElementById("ddlOfferedSection").value;
+        // Check if a section is selected
+        if (selectedSection !== "0") {
+          // Assuming the JSON files are named A.json, B.json, C.json, etc.
+          var jsonFileName = selectedSection + ".json";
+          // Load class routine and student data from the JSON file
+          loadJSON(jsonFileName, function(data) {
+            if (data) {
+              if (data.routine && data.students) {
+                updateClassRoutine(data.routine); // Corrected property name
+                updateStudentData(data.students);
+              } else {
+                alert("Invalid JSON structure. Make sure your JSON file has the correct format.");
+              }
+            } else {
+              alert("Error loading JSON file: " + jsonFileName);
+            }
+          });
+        }
+      }
 
-  <label for="year">Year:</label>
-  <select id="year" onchange="updateDropdowns()">
-    <option value="" disabled selected>Select Year</option>
-    <!-- Years will be dynamically added here -->
-  </select>
-
-  <label for="course">Course:</label>
-  <select id="course" onchange="updateSections()" disabled>
-    <option value="" disabled selected>Select Course</option>
-    <!-- Courses will be dynamically added here -->
-  </select>
-
-  <label for="section">Section:</label>
-  <select id="section" onchange="updateTable()" disabled>
-    <option value="" disabled selected>Select Section</option>
-    <!-- Sections will be dynamically added here -->
-  </select>
-
-  <table id="studentTable">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Credits Completed</th>
-      </tr>
-    </thead>
-    <tbody id="tableBody">
-      <!-- Student details will be dynamically added here -->
-    </tbody>
-  </table>
-
-  <script>
-    // Fetch JSON data from the file
-    fetch('dummy_data.json')
-      .then(response => response.json())
-      .then(data => {
-        // Store the data globally
-        window.studentData = data;
-
-        // Extract unique years from the data
-        const uniqueYears = [...new Set(data.map(student => student.year))];
-
-        // Enable year dropdown
-        const yearDropdown = document.getElementById('year');
-        yearDropdown.removeAttribute('disabled');
-
-        // Populate year dropdown
-        uniqueYears.forEach(year => {
-          const option = document.createElement('option');
-          option.value = year;
-          option.text = year;
-          yearDropdown.appendChild(option);
+      function updateClassRoutine(classRoutine) {
+        var routineTable = document.getElementById("grdRoutine").getElementsByTagName('tbody')[0];
+        // Clear previous class routine
+        routineTable.innerHTML = '';
+        // Add dynamically fetched class routine
+        classRoutine.forEach(function(row) {
+          addClassRoutineRow(routineTable, row.day, row.time);
         });
-      })
-      .catch(error => console.error('Error fetching data:', error));
+      }
 
-    // Function to update course dropdown based on selected year
-    function updateDropdowns() {
-      const selectedYear = document.getElementById('year').value;
-      const selectedCourse = document.getElementById('course');
-      const sectionDropdown = document.getElementById('section');
+      function addClassRoutineRow(table, day, time) {
+        var row = table.insertRow(table.rows.length);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = day;
+        cell2.innerHTML = time;
+      }
 
-      // Enable course dropdown
-      selectedCourse.removeAttribute('disabled');
+      function updateStudentData(studentData) {
+        var studentTable = document.getElementById("grdStudentList").getElementsByTagName('tbody')[0];
+        // Clear previous student data
+        studentTable.innerHTML = '';
+        // Add dynamically fetched student data
+        studentData.forEach(function(student) {
+          addStudentDataRow(studentTable, student.Sn, student.StudentID, student.StudentName, student.Dept, student.CreditCompleted, student.CreditTaken);
+        });
+      }
 
-      const courseDropdown = document.getElementById('course');
-      const uniqueCourses = [...new Set(window.studentData.filter(student => student.year == selectedYear).map(student => student.course))];
+      function addStudentDataRow(table, Sn, StudentID, StudentName, Dept, CreditCompleted, CreditTaken) {
+        var row = table.insertRow(table.rows.length);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        cell1.innerHTML = Sn;
+        cell2.innerHTML = StudentID;
+        cell3.innerHTML = StudentName;
+        cell4.innerHTML = Dept;
+        cell5.innerHTML = CreditCompleted;
+        cell6.innerHTML = CreditTaken;
+      }
 
-      // Update course dropdown
-      courseDropdown.innerHTML = '<option value="" disabled selected>Select Course</option>';
-      uniqueCourses.forEach(course => {
-        const option = document.createElement('option');
-        option.value = course;
-        option.text = course;
-        courseDropdown.appendChild(option);
-      });
+      function loadJSON(fileName, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.overrideMimeType("application/json");
+        xhr.open("GET", fileName, true);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status == "200") {
+              var data = JSON.parse(xhr.responseText);
+              callback(data);
+            } else {
+              console.error("Error loading JSON file:", fileName);
+            }
+          }
+        };
+        xhr.send(null);
+      }
 
-      // Enable section dropdown
-      sectionDropdown.removeAttribute('disabled');
-      
-      // Update sections dropdown
-      updateSections();
-    }
+      function updateOfferedCourses() {
+        var selectedSemester = document.getElementById("drpSemester").value;
+        var offeredCoursesDropdown = document.getElementById("ddlOfferedCourse");
+        // Clear previous courses
+        offeredCoursesDropdown.innerHTML = ' < option value = "0" > [Select] < /option>';
+        // Add dynamically fetched courses based on the selected semester
+        if (selectedSemester === "769") {
+          // Add courses for Spring semester
+          addCourseOption("Data Structures and Algorithms");
+          addCourseOption("Computer Networks");
+        } else if (selectedSemester === "770") {
+          // Add courses for Summer semester
+          addCourseOption("Artificial Intelligence");
+          addCourseOption("Database Management Systems");
+          addCourseOption("Software Engineering");
+        } else if (selectedSemester === "771") {
+          // Add courses for Fall semester
+          addCourseOption("Operating Systems");
+        }
+      }
 
-    // Function to update section dropdown based on selected course
-    function updateSections() {
-      const selectedCourse = document.getElementById('course').value;
-      const sectionDropdown = document.getElementById('section');
+      function addCourseOption(courseName) {
+        var offeredCoursesDropdown = document.getElementById("ddlOfferedCourse");
+        var option = document.createElement("option");
+        option.text = courseName;
+        option.value = courseName;
+        offeredCoursesDropdown.add(option);
+      }
 
-      // Extract unique sections based on selected year and course
-      const uniqueSections = [...new Set(window.studentData.filter(student => student.course == selectedCourse).map(student => student.section))];
+      function updateOfferedSections() {
+        var selectedCourse = document.getElementById("ddlOfferedCourse").value;
+        var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
+        // Clear previous sections
+        offeredSectionsDropdown.innerHTML = ' < option value = "0" > [Select] < /option>';
+        // Add dynamically fetched sections based on the selected course
+        if (selectedCourse === "Data Structures and Algorithms") {
+          // Add sections for Data Structures and Algorithms
+          addSectionOption("A");
+          addSectionOption("B");
+        } else if (selectedCourse === "Computer Networks") {
+          // Add sections for Computer Networks
+          addSectionOption("A");
+          addSectionOption("B");
+        } else if (selectedCourse === "Artificial Intelligence") {
+          // Add sections for Artificial Intelligence
+          addSectionOption("A");
+          addSectionOption("B");
+          addSectionOption("C");
+        } else if (selectedCourse === "Database Management Systems") {
+          // Add sections for Database Management Systems
+          addSectionOption("A");
+          addSectionOption("B");
+          addSectionOption("C");
+        } else if (selectedCourse === "Software Engineering") {
+          // Add sections for Software Engineering
+          addSectionOption("A");
+          addSectionOption("B");
+          addSectionOption("C");
+        } else if (selectedCourse === "Operating Systems") {
+          // Add sections for Operating Systems
+          addSectionOption("A");
+          addSectionOption("B");
+        }
+      }
 
-      // Update section dropdown
-      sectionDropdown.innerHTML = '<option value="" disabled selected>Select Section</option>';
-      uniqueSections.forEach(section => {
-        const option = document.createElement('option');
-        option.value = section;
-        option.text = section;
-        sectionDropdown.appendChild(option);
-      });
-
-      // Update the table
-      updateTable();
-    }
-
-    // Function to update the table based on selected year, course, and section
-    function updateTable() {
-      const selectedYear = document.getElementById('year').value;
-      const selectedCourse = document.getElementById('course').value;
-      const selectedSection = document.getElementById('section').value;
-
-      const filteredData = window.studentData
-        .filter(student => student.year == selectedYear && student.course == selectedCourse && student.section == selectedSection);
-
-      // Update the table
-      const tableBody = document.getElementById('tableBody');
-      tableBody.innerHTML = '';
-      filteredData.forEach(student => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${student.id}</td>
-          <td>${student.name}</td>
-          <td>${student.credits_completed}</td>
-        `;
-        tableBody.appendChild(row);
-      });
-    }
-  </script>
-
-</body>
+      function addSectionOption(sectionName) {
+        var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
+        var option = document.createElement("option");
+        option.text = sectionName;
+        option.value = sectionName;
+        offeredSectionsDropdown.add(option);
+      }
+    </script>
+  </body>
 </html>
