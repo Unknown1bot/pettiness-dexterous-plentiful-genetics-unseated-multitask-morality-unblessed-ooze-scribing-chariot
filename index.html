@@ -176,11 +176,9 @@
         var offeredCoursesDropdown = document.getElementById("ddlOfferedCourse");
         var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
         offeredSectionsDropdown.disabled = true;
-        offeredSectionsDropdown.innerHTML = ' < option value = "0"
-        disabled selected > [Select] < /option>';
+        offeredSectionsDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
         // Clear previous courses
-        offeredCoursesDropdown.innerHTML = ' < option value = "0"
-        disabled selected > [Select] < /option>';
+        offeredCoursesDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
         // Enable Offered Course dropdown if a Semester is selected
         if (selectedSemester !== "0") {
           offeredCoursesDropdown.disabled = false;
@@ -202,8 +200,7 @@
           // If no Semester is selected, disable Offered Course and Offered Section dropdowns
           offeredCoursesDropdown.disabled = true;
           offeredSectionsDropdown.disabled = true;
-          offeredSectionsDropdown.innerHTML = ' < option value = "0"
-          disabled selected > [Select] < /option>'; / / Clear Offered Section options
+          offeredSectionsDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>'; // Clear Offered Section options
         }
       }
 
@@ -219,11 +216,11 @@
         var selectedCourse = document.getElementById("ddlOfferedCourse").value;
         var offeredSectionsDropdown = document.getElementById("ddlOfferedSection");
         // Clear previous sections
-        offeredSectionsDropdown.innerHTML = ' < option value = "0"
-        disabled selected > [Select] < /option>';
+        offeredSectionsDropdown.innerHTML = '<option value="0" disabled selected>[Select]</option>';
         // Enable Offered Section dropdown if a Course is selected
         if (selectedCourse !== "0") {
           offeredSectionsDropdown.disabled = false;
+
           // Add dynamically fetched sections based on the selected course
           if (selectedCourse === "Data Structures and Algorithms") {
             // Add sections for Data Structures and Algorithms
